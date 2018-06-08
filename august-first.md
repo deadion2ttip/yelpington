@@ -6,7 +6,11 @@
 
 **Web Page URL:** (augustfirstvt.com)
 
-##Their bread is the best in town!
+**Notes:**
 
-##MUST GET - Chipotle Breakfast Sandwich... It's Killer!
+- Their bread is the best in town!
+
+- MUST GET - Chipotle Breakfast Sandwich... It's Killer!
+
+- They donate their leftover day olds. What good samaritans!
 
