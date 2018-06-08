@@ -1,4 +1,6 @@
 # August First
+#HOURS
+**Monday – Saturday: 7:30am – 4:00 pm**
 
 **Address** 149 S Champlain St, Burlington, VT 05401
 
@@ -7,6 +9,8 @@
 **Web Page URL:** (augustfirstvt.com)
 
 **Notes:**
+
+- Their jalapeno cheddar bread is good even though their laptop policy is bogus.
 
 - Their bread is the best in town!
 
