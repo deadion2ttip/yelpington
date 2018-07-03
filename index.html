@@ -1,10 +1,15 @@
 <script>
-fetch('alhi-babas-kabob-shop.1.json')
+// params = new URLSearchParams(document.location.search.slice(1));
+// name = params.get("name");
+
+fetch('alhi-babas-kabob-shop.json')
   .then(function(response) {
-    return response.text();
+    return response.json;
   })
-  .then(function(myText) {
-    console.log(myText);
+  .then(function(restaurant) {
+    let body = document.querySelector('body')
+   .innerHTML = "<p>" + restaurant + "</p>";
+    
   })
   .catch(function(error) {
     console.error("why is this happening?\n" + error);
