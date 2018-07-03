@@ -1,18 +1,38 @@
-<script>
-// params = new URLSearchParams(document.location.search.slice(1));
-// name = params.get("name");
+<!DOCTYPE html>
+<HTML>
+<head>
+<title>
+  OH GOD I HATE AJAX!
+</title>
+</head>
+<body>
 
-fetch('alhi-babas-kabob-shop.json')
+
+
+
+<script>
+let params = new URLSearchParams(document.location.search.slice(1));
+let name = params.get("name");
+fetch(name + '.json')
   .then(function(response) {
-    return response.json;
+    return response.json();
   })
   .then(function(restaurant) {
-    let body = document.querySelector('body')
-   .innerHTML = "<p>" + restaurant + "</p>";
-    
+    fillBody(restaurant)
   })
   .catch(function(error) {
     console.error("why is this happening?\n" + error);
   })
 
+function fillBody(restaurant) {
+ body = document.querySelector('body');
+ body.innerHTML += "<h1>" + restaurant.name + "</h1>"
+ body.innerHTML += "<h3>Address: " + restaurant.address + "</h3>"
+ body.innerHTML += "<h3>Phone: " + restaurant['phone number'] + "</h3>"
+ body.innerHTML += "<h3>Hours: " + restaurant.hours + "</h3>"
+ body.innerHTML += "<p>More Details: " + restaurant.notes + "</p>"
+}
+
 </script>
+</body>
+</HTML>
