@@ -1,4 +1,5 @@
-# August First
+# August First Bakery
+
 #HOURS
 **Monday – Saturday: 7:30am – 4:00 pm**
 
@@ -17,4 +18,3 @@
 - MUST GET - Chipotle Breakfast Sandwich... It's Killer!
 
 - They donate their leftover day olds. What good samaritans!
-
