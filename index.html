@@ -1,15 +1,13 @@
 <script>
-fetch('city-market.md')
-  .then(function(response) {
-    response.text().then((s) => console.log(s));
-  });
-
-fetch('city-market.md')
+fetch('alhi-babas-kabob-shop.1.json')
   .then(function(response) {
     return response.text();
   })
   .then(function(myText) {
     console.log(myText);
-  });
+  })
+  .catch(function(error) {
+    console.error("why is this happening?\n" + error);
+  })
 
 </script>
