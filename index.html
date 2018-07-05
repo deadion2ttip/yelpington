@@ -1,38 +1,67 @@
 <!DOCTYPE html>
 <HTML>
-<head>
-<title>
-  OH GOD I HATE AJAX!
-</title>
-</head>
-<body>
+  <head>
+    <title>
+      OH GOD I HATE AJAX!
+    </title>
+  </head>
+  <body>
+    <ul>
+      
+    </ul>
+    
+    <script>  
+      function makeMap(geodata) {
+        body = document.querySelector('body')
+        bBox = geodata.boundingbox
+        west = bBox[3]
+        south = bBox[0]
+        east = bBox [2]
+        north = bBox[1]
+        console.log(bBox)
+        console.log(bBox.join(','))
+        body.innerHTML += '<iframe id="inlineFrameExample" title="Inline Frame Example width="300" height="200"src="https://www.openstreetmap.org/export/embed.html?bbox='+ west +','+south +',' + east + ',' + north +',&layer=mapnik"></iframe>'
+  
+      }
+      let params = new URLSearchParams(document.location.search.slice(1));
+      let name = params.get("name");
+      
+      fetch(name + '.json')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(restaurant) {
+        fillBody(restaurant)
+        getCoordinates(restaurant.address)
+      })
+      .catch(function(error) {
+        console.error("why is this happening?\n" + error);
+      })
 
+      function getCoordinates(address) {
+      fetch('https://nominatim.openstreetmap.org/search/?q='+ address +'&format=json')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(geodata) {
+        geodata = geodata[0]
+        console.log(geodata)
+        makeMap(geodata)
+      })
+      .catch(function(error) {
+        console.error("why is this happening?\n" + error);
+      })
+    }
 
-
-
-<script>
-let params = new URLSearchParams(document.location.search.slice(1));
-let name = params.get("name");
-fetch(name + '.json')
-  .then(function(response) {
-    return response.json();
-  })
-  .then(function(restaurant) {
-    fillBody(restaurant)
-  })
-  .catch(function(error) {
-    console.error("why is this happening?\n" + error);
-  })
-
-function fillBody(restaurant) {
- body = document.querySelector('body');
- body.innerHTML += "<h1>" + restaurant.name + "</h1>"
- body.innerHTML += "<h3>Address: " + restaurant.address + "</h3>"
- body.innerHTML += "<h3>Phone: " + restaurant['phone number'] + "</h3>"
- body.innerHTML += "<h3>Hours: " + restaurant.hours + "</h3>"
- body.innerHTML += "<p>More Details: " + restaurant.notes + "</p>"
-}
-
-</script>
-</body>
+      function fillBody(restaurant) {
+        body = document.querySelector('body');
+        body.innerHTML += "<h1>" + restaurant.name + "</h1>"
+        body.innerHTML += "<h3>Address: " + restaurant.address + "</h3>"
+        body.innerHTML += "<h3>Phone: " + restaurant['phone number'] + "</h3>"
+        body.innerHTML += "<h3>Hours: " + restaurant.hours + "</h3>"
+        body.innerHTML += "<p>More Details: " + restaurant.notes + "</p>"
+      }
+      
+    </script>
+  </body>
 </HTML>

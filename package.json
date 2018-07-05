@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/BurlingtonCodeAcademy/yelpington#readme",
   "dependencies": {
-    "mime-types": "^2.1.18"
+    "mime-types": "^2.1.18",
+    "ol": "^5.0.0"
   }
 }
