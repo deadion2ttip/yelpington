@@ -55,11 +55,38 @@
       var mrMikesMarker = L.marker([44.476154, -73.211225]).addTo(mymap);
       var nMoonMarker = L.marker([44.479603, -73.212138]).addTo(mymap);
       
-       
+      ahliMarker.on('click', function(){
+        window.location.href = 'http://localhost:5000/?name=ahli-babas-kabob-shop';
+      } )
+      asianaMarker.on('click', function(){
+        window.location.href = 'http://localhost:5000/?name=asiana-noodle-house';
+      } )
+      augustMarker.on('click', function(){
+        window.location.href = 'http://localhost:5000/?name=August-First';
+      } )
+      churchStreetTavernMarker.on('click', function(){
+        window.location.href = 'http://localhost:5000/?name=church-street-tavern';
+      } )
+      cityMarker.on('click', function(){
+        window.location.href = 'http://localhost:5000/?name=city-market';
+      } )
+      mrMikesMarker.on('click', function(){
+        window.location.href = 'http://localhost:5000/?name=mr-mikes';
+      } )
+      nMoonMarker.on('click', function(){
+        window.location.href = 'http://localhost:5000/?name=new-moon';
+      } )
       
       function makeMap(geodata) {
-        let lat = geodata.lat;
-        let lon = geodata.lon;
+        console.log('map made')
+        console.log(restaurant)
+        if (restaurant.lat-lon) {
+          lat = restaurant.lat-lon[0]
+          lon = restaurant.lat-lon[1]
+        } else {
+          let lat = geodata.lat;
+          let lon = geodata.lon;
+       }
         mymap.setView([lat, lon], 19);
       }
 
