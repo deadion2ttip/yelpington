@@ -19,19 +19,19 @@
   </head>
   <body>
     <ul>
-      <li><a href='?name=ahli-babas-kabob-shop'>Ahli Baba's Kabob Shop
+      <li><a href='ahli-babas-kabob-shop'>Ahli Baba's Kabob Shop
       </a></li>
-      <li><a href='?name=asiana-noodle-house'>Asiana Noodle House
+      <li><a href='asiana-noodle-house'>Asiana Noodle House
       </a></li>
-      <li><a href='?name=august-first'>August First
+      <li><a href='august-first'>August First
       </a></li>
-      <li><a href='?name=church-street-tavern'>Church Street Tavern
+      <li><a href='church-street-tavern'>Church Street Tavern
       </a></li>
-      <li><a href='?name=city-market'>City Market
+      <li><a href='city-market'>City Market
       </a></li>
-      <li><a href='?name=mr-mikes'>Mr. Mike's
+      <li><a href='mr-mikes'>Mr. Mike's
       </a></li>
-      <li><a href='?name=new-moon'>New Moon
+      <li><a href='new-moon'>New Moon
       </a></li>
     </ul>
     
@@ -56,34 +56,39 @@
       var nMoonMarker = L.marker([44.479603, -73.212138]).addTo(mymap);
       
       ahliMarker.on('click', function(){
-        window.location.href = 'http://localhost:5000/?name=ahli-babas-kabob-shop';
+        window.location.href = 'http://localhost:5000/ahli-babas-kabob-shop';
       } )
       asianaMarker.on('click', function(){
-        window.location.href = 'http://localhost:5000/?name=asiana-noodle-house';
+        window.location.href = 'http://localhost:5000/asiana-noodle-house';
       } )
       augustMarker.on('click', function(){
-        window.location.href = 'http://localhost:5000/?name=August-First';
+        window.location.href = 'http://localhost:5000/August-First';
       } )
       churchStreetTavernMarker.on('click', function(){
-        window.location.href = 'http://localhost:5000/?name=church-street-tavern';
+        window.location.href = 'http://localhost:5000/church-street-tavern';
       } )
       cityMarker.on('click', function(){
-        window.location.href = 'http://localhost:5000/?name=city-market';
+        window.location.href = 'http://localhost:5000/city-market';
       } )
       mrMikesMarker.on('click', function(){
-        window.location.href = 'http://localhost:5000/?name=mr-mikes';
+        window.location.href = 'http://localhost:5000/mr-mikes';
       } )
       nMoonMarker.on('click', function(){
-        window.location.href = 'http://localhost:5000/?name=new-moon';
+        window.location.href = 'http://localhost:5000/new-moon';
       } )
       
       function makeMap(lat, lon) {
         mymap.setView([lat, lon], 19);
       }
 
-      let params = new URLSearchParams(document.location.search.slice(1));
-      let name = params.get("name");
+      // let params = new URLSearchParams(document.location.search.slice(1));
+      // let name = params.get("name");
       
+      let name = document.location.pathname.slice(1);
+
+if (!name) {
+  console.log("no place name specfied");
+} else {
       fetch(name + '.json')
       .then(function(response) {
         return response.json();
@@ -97,12 +102,30 @@
         } else {
           getCoordinates(restaurant.address)
        }
+      
+// <script>
+// let name = document.location.pathname.slice(1);
+
+// if (!name) {
+//   console.log("no place name specfied");
+// } else {
+//   console.log("fetching place named '" + name + "'");
+
+//   fetch(name + '.json')
+//     .then(function (response) {
+//       return response.text();
+//     })
+//     .then(function (myText) {
+//       console.log(myText);
+//     });
+// }
+
 
       })
       .catch(function(error) {
         console.error("why is this happening?\n" + error);
       })
-      
+    }
       function getCoordinates(address) {
         fetch('https://nominatim.openstreetmap.org/search/?q='+ address +'&format=json')
         .then(function(response) {
