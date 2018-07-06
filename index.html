@@ -4,25 +4,65 @@
     <title>
       OH GOD I HATE AJAX!
     </title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+    integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+    crossorigin=""></script>
+    <style>
+      #mainMap{
+        height:400px;
+        width: 400px;
+      }
+    </style>
   </head>
   <body>
     <ul>
-      
+      <li><a href='?name=ahli-babas-kabob-shop'>Ahli Baba's Kabob Shop
+      </a></li>
+      <li><a href='?name=asiana-noodle-house'>Asiana Noodle House
+      </a></li>
+      <li><a href='?name=august-first'>August First
+      </a></li>
+      <li><a href='?name=church-street-tavern'>Church Street Tavern
+      </a></li>
+      <li><a href='?name=city-market'>City Market
+      </a></li>
+      <li><a href='?name=mr-mikes'>Mr. Mike's
+      </a></li>
+      <li><a href='?name=new-moon'>New Moon
+      </a></li>
     </ul>
     
-    <script>  
+    <div id="mainMap"></div>
+    <div id="reviewContainer"></div>
+    <script>
+      var mymap = L.map('mainMap').setView([44.4758492, -73.2137881], 15);
+      
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: 'sk.eyJ1IjoiY2lnbml0ZSIsImEiOiJjamphM3RocmEzNzBhM3FwZ3poZ2swdGwzIn0.bH6kosn1WPt7jvjuj_ANag'
+      }).addTo(mymap);
+      
+      var ahliMarker = L.marker([44.4756659, -73.2130705]).addTo(mymap);
+      var asianaMarker = L.marker([44.4779575, -73.212330]).addTo(mymap);
+      var augustMarker = L.marker([44.475417, -73.217246]).addTo(mymap);
+      var churchStreetTavernMarker = L.marker([44.477475, -73.212735]).addTo(mymap);
+      var cityMarker = L.marker([44.478072, -73.210655]).addTo(mymap);
+      var mrMikesMarker = L.marker([44.476154, -73.211225]).addTo(mymap);
+      var nMoonMarker = L.marker([44.479603, -73.212138]).addTo(mymap);
+      
+       
+      
       function makeMap(geodata) {
-        body = document.querySelector('body')
-        bBox = geodata.boundingbox
-        west = bBox[3]
-        south = bBox[0]
-        east = bBox [2]
-        north = bBox[1]
-        console.log(bBox)
-        console.log(bBox.join(','))
-        body.innerHTML += '<iframe id="inlineFrameExample" title="Inline Frame Example width="300" height="200"src="https://www.openstreetmap.org/export/embed.html?bbox='+ west +','+south +',' + east + ',' + north +',&layer=mapnik"></iframe>'
-  
+        let lat = geodata.lat;
+        let lon = geodata.lon;
+        mymap.setView([lat, lon], 19);
       }
+
       let params = new URLSearchParams(document.location.search.slice(1));
       let name = params.get("name");
       
@@ -37,31 +77,30 @@
       .catch(function(error) {
         console.error("why is this happening?\n" + error);
       })
-
+      
       function getCoordinates(address) {
-      fetch('https://nominatim.openstreetmap.org/search/?q='+ address +'&format=json')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(geodata) {
-        geodata = geodata[0]
-        console.log(geodata)
-        makeMap(geodata)
-      })
-      .catch(function(error) {
-        console.error("why is this happening?\n" + error);
-      })
-    }
-
-      function fillBody(restaurant) {
-        body = document.querySelector('body');
-        body.innerHTML += "<h1>" + restaurant.name + "</h1>"
-        body.innerHTML += "<h3>Address: " + restaurant.address + "</h3>"
-        body.innerHTML += "<h3>Phone: " + restaurant['phone number'] + "</h3>"
-        body.innerHTML += "<h3>Hours: " + restaurant.hours + "</h3>"
-        body.innerHTML += "<p>More Details: " + restaurant.notes + "</p>"
+        fetch('https://nominatim.openstreetmap.org/search/?q='+ address +'&format=json')
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(geodata) {
+          geodata = geodata[0]
+          console.log(geodata)
+          makeMap(geodata)
+        })
+        .catch(function(error) {
+          console.error("why is this happening?\n" + error);
+        })
       }
       
+      function fillBody(restaurant) {
+        content = document.getElementById('reviewContainer');
+        content.innerHTML += "<h1>" + restaurant.name + "</h1>"
+        content.innerHTML += "<h3>Address: " + restaurant.address + "</h3>"
+        content.innerHTML += "<h3>Phone: " + restaurant['phone number'] + "</h3>"
+        content.innerHTML += "<h3>Hours: " + restaurant.hours + "</h3>"
+        content.innerHTML += "<p>More Details: " + restaurant.notes + "</p>"
+      }
     </script>
   </body>
 </HTML>
