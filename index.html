@@ -77,16 +77,7 @@
         window.location.href = 'http://localhost:5000/?name=new-moon';
       } )
       
-      function makeMap(geodata) {
-        console.log('map made')
-        console.log(restaurant)
-        if (restaurant.lat-lon) {
-          lat = restaurant.lat-lon[0]
-          lon = restaurant.lat-lon[1]
-        } else {
-          let lat = geodata.lat;
-          let lon = geodata.lon;
-       }
+      function makeMap(lat, lon) {
         mymap.setView([lat, lon], 19);
       }
 
@@ -99,7 +90,14 @@
       })
       .then(function(restaurant) {
         fillBody(restaurant)
-        getCoordinates(restaurant.address)
+          if (restaurant.latlon) {
+          lat = restaurant.latlon[0]
+          lon = restaurant.latlon[1]
+          makeMap(lat, lon)
+        } else {
+          getCoordinates(restaurant.address)
+       }
+
       })
       .catch(function(error) {
         console.error("why is this happening?\n" + error);
@@ -113,7 +111,7 @@
         .then(function(geodata) {
           geodata = geodata[0]
           console.log(geodata)
-          makeMap(geodata)
+          makeMap(geodata.lat, geodata.lon)
         })
         .catch(function(error) {
           console.error("why is this happening?\n" + error);
