@@ -2,7 +2,7 @@
 <HTML>
   <head>
     <title>
-        Yelpington - Your Source For Restaruants in Burlington!
+        Yelpington - Your Source For Restaurants in Burlington!
     </title>
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
@@ -70,7 +70,7 @@
   <body>
     <header>
       <h1>
-          <a href=''>
+          <a href='/'>
         Yelpington!
         </a>
       </h1>
@@ -119,49 +119,49 @@
       var nMoonMarker = L.marker([44.479603, -73.212138]).addTo(mymap);
       
       ahliMarker.on('click', function(){
-        window.location.href = '/ahli-babas-kabob-shop';
+        window.location.href = 'ahli-babas-kabob-shop';
       } ).bindPopup("Ahli Baba's Kabob Shop").on('mouseover',function(){
         ahliMarker.openPopup()
       }).on('mouseout', function(){
         ahliMarker.closePopup()
       })
       asianaMarker.on('click', function(){
-        window.location.href = '/asiana-noodle-house';
+        window.location.href = 'asiana-noodle-house';
       } ).bindPopup("Asiana Noodle House").on('mouseover',function(){
         asianaMarker.openPopup()
       }).on('mouseout', function(){
         asianaMarker.closePopup()
       })
       augustMarker.on('click', function(){
-        window.location.href = '/August-First';
+        window.location.href = 'August-First';
       } ).bindPopup("August First").on('mouseover',function(){
         augustMarker.openPopup()
       }).on('mouseout', function(){
         augustMarker.closePopup()
       })
       churchStreetTavernMarker.on('click', function(){
-        window.location.href = '/church-street-tavern';
+        window.location.href = 'church-street-tavern';
       } ).bindPopup("Church Street Tavern").on('mouseover',function(){
         churchStreetTavernMarker.openPopup()
       }).on('mouseout', function(){
         churchStreetTavernMarker.closePopup()
       })
       cityMarker.on('click', function(){
-        window.location.href = '/city-market';
+        window.location.href = 'city-market';
       } ).bindPopup("City Market").on('mouseover',function(){
         cityMarker.openPopup()
       }).on('mouseout', function(){
         cityMarker.closePopup()
       })
       mrMikesMarker.on('click', function(){
-        window.location.href = '/mr-mikes';
+        window.location.href = 'mr-mikes';
       } ).bindPopup("Mr. Mike's Pizza").on('mouseover',function(){
         mrMikesMarker.openPopup()
       }).on('mouseout', function(){
         mrMikesMarker.closePopup()
       })
       nMoonMarker.on('click', function(){
-        window.location.href = '/new-moon';
+        window.location.href = 'new-moon';
       } ).bindPopup("New Moon Cafe").on('mouseover',function(){
         nMoonMarker.openPopup()
       }).on('mouseout', function(){
@@ -174,7 +174,7 @@
       
       let name = document.location.pathname.slice(1);
       
-      if (!name) {
+      if (name === 'yelpington/') {
         reviewContainer = document.getElementById('reviewContainer')
         reviewContainer.classList.add('hide-me')
         console.log("no place name specfied");
