@@ -81,20 +81,6 @@
     <section>
       <ul id ='mainMenu'>
         <h2>Restaurants</h2>
-        <!-- <li class= 'menuItem'><a href='ahli-babas-kabob-shop'>Ahli Baba's Kabob Shop
-        </a></li>
-        <li class= 'menuItem'><a href='asiana-noodle-house'>Asiana Noodle House
-        </a></li>
-        <li class= 'menuItem'><a href='august-first'>August First
-        </a></li>
-        <li class= 'menuItem'><a href='church-street-tavern'>Church Street Tavern
-        </a></li>
-        <li class= 'menuItem'><a href='city-market'>City Market
-        </a></li>
-        <li class= 'menuItem'><a href='mr-mikes'>Mr. Mike's
-        </a></li>
-        <li class= 'menuItem'><a href='new-moon'>New Moon
-        </a></li> -->
       </ul>
       
       <div id="mainMap"></div>
@@ -114,64 +100,46 @@
     function makeMarkers(){
 
     }
-      var ahliMarker = L.marker([44.4756659, -73.2130705]).addTo(mymap);
-      var asianaMarker = L.marker([44.4779575, -73.212330]).addTo(mymap);
-      var augustMarker = L.marker([44.475417, -73.217246]).addTo(mymap);
-      var churchStreetTavernMarker = L.marker([44.477475, -73.212735]).addTo(mymap);
-      var cityMarker = L.marker([44.478072, -73.210655]).addTo(mymap);
-      var mrMikesMarker = L.marker([44.476154, -73.211225]).addTo(mymap);
-      var nMoonMarker = L.marker([44.479603, -73.212138]).addTo(mymap);
-      
-  
-      ahliMarker.on('click', function(){
-        window.location.href = 'ahli-babas-kabob-shop';
-      } ).bindPopup("Ahli Baba's Kabob Shop").on('mouseover',function(){
-        ahliMarker.openPopup()
-      }).on('mouseout', function(){
-        ahliMarker.closePopup()
-      })
-      asianaMarker.on('click', function(){
-        window.location.href = 'asiana-noodle-house';
-      } ).bindPopup("Asiana Noodle House").on('mouseover',function(){
-        asianaMarker.openPopup()
-      }).on('mouseout', function(){
-        asianaMarker.closePopup()
-      })
-      augustMarker.on('click', function(){
-        window.location.href = 'august-first';
-      } ).bindPopup("August First").on('mouseover',function(){
-        augustMarker.openPopup()
-      }).on('mouseout', function(){
-        augustMarker.closePopup()
-      })
-      churchStreetTavernMarker.on('click', function(){
-        window.location.href = 'church-street-tavern';
-      } ).bindPopup("Church Street Tavern").on('mouseover',function(){
-        churchStreetTavernMarker.openPopup()
-      }).on('mouseout', function(){
-        churchStreetTavernMarker.closePopup()
-      })
-      cityMarker.on('click', function(){
-        window.location.href = 'city-market';
-      } ).bindPopup("City Market").on('mouseover',function(){
-        cityMarker.openPopup()
-      }).on('mouseout', function(){
-        cityMarker.closePopup()
-      })
-      mrMikesMarker.on('click', function(){
-        window.location.href = 'mr-mikes';
-      } ).bindPopup("Mr. Mike's Pizza").on('mouseover',function(){
-        mrMikesMarker.openPopup()
-      }).on('mouseout', function(){
-        mrMikesMarker.closePopup()
-      })
-      nMoonMarker.on('click', function(){
-        window.location.href = 'new-moon';
-      } ).bindPopup("New Moon Cafe").on('mouseover',function(){
-        nMoonMarker.openPopup()
-      }).on('mouseout', function(){
-        nMoonMarker.closePopup()
-      })
+      fetch('all.json')
+        .then(function(response) {
+          return response.json()
+        })
+        .then(function(restaurantList){
+          for (let restaurantJsonName of restaurantList){
+            fetch(restaurantJsonName+ '.json')
+            .then(function(restaurantFetchResponse){
+              return restaurantFetchResponse.json()
+            })
+            .then(function(restaurantJson){
+
+              fetch('https://nominatim.openstreetmap.org/search/?q='+ restaurantJson.address +'&format=json')
+              .then(function(response) {
+                return response.json();
+                })
+              .then(function(geodata) {
+                 geodata = geodata[0]
+                 console.log(restaurantJson)
+                 console.log(restaurantJson.latlon)
+                 if (restaurantJson.latlon) {
+                   lat = restaurantJson.latlon[0]
+                   lon = restaurantJson.latlon[1]
+                 } else {
+                 lat = geodata.lat
+                 lon = geodata.lon
+                 }
+                 L.marker([lat, lon]).addTo(mymap).on('click', function(){
+                 window.location.href = restaurantJson.id;
+                  } )
+                  .bindPopup(restaurantJson.name)
+                  .on('mouseover',function(){
+                  this.openPopup()
+                  }).on('mouseout', function(){
+                  this.closePopup()
+                })
+                })
+            })
+          }
+        })
       
       function makeMap(lat, lon) {
         mymap.setView([lat, lon], 19);
@@ -184,20 +152,17 @@
         reviewContainer.classList.add('hide-me')
         fetch('all.json')
         .then(function(response) {
-          console.log(response)
           return response.json()
         })
         .then(function(restaurantList){
           let mainMenu = document.getElementById('mainMenu')
-          for (restaurantJson of restaurantList){
+          for (let restaurantJson of restaurantList){
             restaurantName = ''
             fetch(restaurantJson+ '.json')
             .then(function(response){
-              console.log(response)
               return response.json()
             })
             .then(function(restaurant){
-              console.log(restaurant)
               restaurantName = restaurant.name
               mainMenu.innerHTML+= "<li class= 'menuItem'><a href=" + restaurantJson+">" + restaurantName + "</a></li>"
             })
