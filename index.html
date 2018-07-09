@@ -110,6 +110,7 @@
         accessToken: 'sk.eyJ1IjoiY2lnbml0ZSIsImEiOiJjamphM3RocmEzNzBhM3FwZ3poZ2swdGwzIn0.bH6kosn1WPt7jvjuj_ANag'
       }).addTo(mymap);
       
+    
       var ahliMarker = L.marker([44.4756659, -73.2130705]).addTo(mymap);
       var asianaMarker = L.marker([44.4779575, -73.212330]).addTo(mymap);
       var augustMarker = L.marker([44.475417, -73.217246]).addTo(mymap);
@@ -133,7 +134,7 @@
         asianaMarker.closePopup()
       })
       augustMarker.on('click', function(){
-        window.location.href = 'August-First';
+        window.location.href = 'august-first';
       } ).bindPopup("August First").on('mouseover',function(){
         augustMarker.openPopup()
       }).on('mouseout', function(){
