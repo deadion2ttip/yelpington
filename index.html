@@ -81,7 +81,7 @@
     <section>
       <ul id ='mainMenu'>
         <h2>Restaurants</h2>
-        <li class= 'menuItem'><a href='ahli-babas-kabob-shop'>Ahli Baba's Kabob Shop
+        <!-- <li class= 'menuItem'><a href='ahli-babas-kabob-shop'>Ahli Baba's Kabob Shop
         </a></li>
         <li class= 'menuItem'><a href='asiana-noodle-house'>Asiana Noodle House
         </a></li>
@@ -94,7 +94,7 @@
         <li class= 'menuItem'><a href='mr-mikes'>Mr. Mike's
         </a></li>
         <li class= 'menuItem'><a href='new-moon'>New Moon
-        </a></li>
+        </a></li> -->
       </ul>
       
       <div id="mainMap"></div>
@@ -111,7 +111,9 @@
         accessToken: 'sk.eyJ1IjoiY2lnbml0ZSIsImEiOiJjamphM3RocmEzNzBhM3FwZ3poZ2swdGwzIn0.bH6kosn1WPt7jvjuj_ANag'
       }).addTo(mymap);
       
-    
+    function makeMarkers(){
+
+    }
       var ahliMarker = L.marker([44.4756659, -73.2130705]).addTo(mymap);
       var asianaMarker = L.marker([44.4779575, -73.212330]).addTo(mymap);
       var augustMarker = L.marker([44.475417, -73.217246]).addTo(mymap);
@@ -120,6 +122,7 @@
       var mrMikesMarker = L.marker([44.476154, -73.211225]).addTo(mymap);
       var nMoonMarker = L.marker([44.479603, -73.212138]).addTo(mymap);
       
+  
       ahliMarker.on('click', function(){
         window.location.href = 'ahli-babas-kabob-shop';
       } ).bindPopup("Ahli Baba's Kabob Shop").on('mouseover',function(){
@@ -179,6 +182,30 @@
       if (!name) {
         reviewContainer = document.getElementById('reviewContainer')
         reviewContainer.classList.add('hide-me')
+        fetch('all.json')
+        .then(function(response) {
+          console.log(response)
+          return response.json()
+        })
+        .then(function(restaurantList){
+          let mainMenu = document.getElementById('mainMenu')
+          for (restaurantJson of restaurantList){
+            restaurantName = ''
+            fetch(restaurantJson+ '.json')
+            .then(function(response){
+              console.log(response)
+              return response.json()
+            })
+            .then(function(restaurant){
+              console.log(restaurant)
+              restaurantName = restaurant.name
+              mainMenu.innerHTML+= "<li class= 'menuItem'><a href=" + restaurantJson+">" + restaurantName + "</a></li>"
+            })
+            .catch(function(error){
+              console.log('could not populate menu item for ' + restaurantJson + '.' + error)
+            })
+          }
+        })
         console.log("no place name specfied");
       } else {
         mainMenu = document.getElementById('mainMenu')
