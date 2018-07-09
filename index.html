@@ -172,9 +172,9 @@
         mymap.setView([lat, lon], 19);
       }
       
-      let name = document.location.pathname.slice(1);
+      let name = document.location.pathname.slice('/yelpington/'.length);
       
-      if (name === 'yelpington/') {
+      if (!name) {
         reviewContainer = document.getElementById('reviewContainer')
         reviewContainer.classList.add('hide-me')
         console.log("no place name specfied");
