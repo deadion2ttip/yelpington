@@ -54,6 +54,10 @@ section{
     padding: 10px;
     width: 90%;
 }
+li{
+    font-size: 20pt;
+    text-decoration: none;
+}
 @media screen and (min-width:600px) {
     section {
         flex-direction: row;
