@@ -125,7 +125,7 @@
                 return response.json();
               })
               .then(function (geodata) {
-                getLatLonForMarker(geodata)
+                getLatLonForMarker(geodata, restaurantJson.latlon)
                 L.marker([lat, lon]).addTo(mymap).on('click', function () {
                   window.location.href = restaurantJson.id;
                 })
@@ -139,11 +139,11 @@
             })
 }
 
-   function getLatLonForMarker(geodata) {
+   function getLatLonForMarker(geodata, manualLatLon) {
                 geodata = geodata[0]
-                if (restaurantJson.latlon) {
-                  lat = restaurantJson.latlon[0]
-                  lon = restaurantJson.latlon[1]
+                if (manualLatLon) {
+                  lat = restaurantJson.manualLatLon[0]
+                  lon = restaurantJson.manualLatLon[1]
                 } else {
                   lat = geodata.lat
                   lon = geodata.lon
