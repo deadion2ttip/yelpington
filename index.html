@@ -142,8 +142,8 @@
    function getLatLonForMarker(geodata, manualLatLon) {
                 geodata = geodata[0]
                 if (manualLatLon) {
-                  lat = restaurantJson.manualLatLon[0]
-                  lon = restaurantJson.manualLatLon[1]
+                  lat = manualLatLon[0]
+                  lon = manualLatLon[1]
                 } else {
                   lat = geodata.lat
                   lon = geodata.lon
