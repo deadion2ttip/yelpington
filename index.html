@@ -5,6 +5,7 @@
     <title>
       Yelpington - Your Source For Restaurants in Burlington!
     </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel='stylesheet' type='text/css' href='index.css'>
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
@@ -25,11 +26,10 @@
       </h3>
     </header>
     <section>
+      <div id="mainMap"></div>
       <ul id='mainMenu'>
         <h2>Restaurants</h2>
       </ul>
-      
-      <div id="mainMap"></div>
       <div id="reviewContainer"></div>
     </section>
     <script></script>
@@ -43,9 +43,9 @@
         accessToken: 'sk.eyJ1IjoiY2lnbml0ZSIsImEiOiJjamphM3RocmEzNzBhM3FwZ3poZ2swdGwzIn0.bH6kosn1WPt7jvjuj_ANag'
       }).addTo(mymap);
       
-      let name = document.location.pathname.slice(1);
+      let restaurantSelected = document.location.pathname.slice(1);
       
-      if (!name) {
+      if (!restaurantSelected) {
         reviewContainer = document.getElementById('reviewContainer')
         reviewContainer.classList.add('hide-me')
         fetch('all.json')
@@ -60,7 +60,7 @@
       } else {
         mainMenu = document.getElementById('mainMenu')
         mainMenu.classList.add('hide-me')
-        fetch(name + '.json')
+        fetch(restaurantSelected + '.json')
         .then(function (response) {
           return response.json();
         })
@@ -113,43 +113,43 @@
           })
         }
       }
-     function makeMarker(restaurantJsonName) {
-      fetch(restaurantJsonName + '.json')
-            .then(function (restaurantFetchResponse) {
-              return restaurantFetchResponse.json()
+      function makeMarker(restaurantJsonName) {
+        fetch(restaurantJsonName + '.json')
+        .then(function (restaurantFetchResponse) {
+          return restaurantFetchResponse.json()
+        })
+        .then(function (restaurantJson) {
+          
+          fetch('https://nominatim.openstreetmap.org/search/?q=' + restaurantJson.address + '&format=json')
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (geodata) {
+            getLatLonForMarker(geodata, restaurantJson.latlon)
+            L.marker([lat, lon]).addTo(mymap).on('click', function () {
+              window.location.href = restaurantJson.id;
             })
-            .then(function (restaurantJson) {
-              
-              fetch('https://nominatim.openstreetmap.org/search/?q=' + restaurantJson.address + '&format=json')
-              .then(function (response) {
-                return response.json();
-              })
-              .then(function (geodata) {
-                getLatLonForMarker(geodata, restaurantJson.latlon)
-                L.marker([lat, lon]).addTo(mymap).on('click', function () {
-                  window.location.href = restaurantJson.id;
-                })
-                .bindPopup(restaurantJson.name)
-                .on('mouseover', function () {
-                  this.openPopup()
-                }).on('mouseout', function () {
-                  this.closePopup()
-                })
-              })
+            .bindPopup(restaurantJson.name)
+            .on('mouseover', function () {
+              this.openPopup()
+            }).on('mouseout', function () {
+              this.closePopup()
             })
-}
-
-   function getLatLonForMarker(geodata, manualLatLon) {
-                geodata = geodata[0]
-                if (manualLatLon) {
-                  lat = manualLatLon[0]
-                  lon = manualLatLon[1]
-                } else {
-                  lat = geodata.lat
-                  lon = geodata.lon
-                }
-              }
-
+          })
+        })
+      }
+      
+      function getLatLonForMarker(geodata, manualLatLon) {
+        geodata = geodata[0]
+        if (manualLatLon) {
+          lat = manualLatLon[0]
+          lon = manualLatLon[1]
+        } else {
+          lat = geodata.lat
+          lon = geodata.lon
+        }
+      }
+      
       function getCoordinatesForMap(address) {
         fetch('https://nominatim.openstreetmap.org/search/?q=' + address + '&format=json')
         .then(function (response) {

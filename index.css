@@ -37,18 +37,38 @@ section{
     background-color: antiquewhite;
     padding: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
+    align-items: center;
 }
 #mainMap{
     border: 2px solid lightgray;
     border-radius: 10%;
-    height:500px;
-    width: 500px;
+    height:300px;
+    width: 300px;
     margin: 20px;
 }
 #reviewContainer{
     border: 2px solid lightgray;
     border-radius: 10%;
     padding: 10px;
-    max-width: 50%;
+    width: 90%;
+}
+@media screen and (min-width:600px) {
+    section {
+        flex-direction: row;
+    }
+    #mainMap {
+        height: 500px;
+        width: 500px;
+    }
+    #reviewContainer{
+        max-width: 50%;
+    }
+    h1 {
+        font-size: 40pt;
+    }
+    h3{
+        font-size: 20pt;
+    }
 }
