@@ -98,7 +98,10 @@
         .then(function (response) {
           return response.json()
         })
-        .then(populateMainMenu() //{
+        .then(function(restaurantList) {
+          populateMainMenu(restaurantList) 
+        }
+          //{
         //   let mainMenu = document.getElementById('mainMenu')
         //   for (let restaurantJson of restaurantList) {
         //     restaurantName = ''
