@@ -1,0 +1,54 @@
+
+body{
+    background-color: antiquewhite;
+    padding: none;
+    margin: 0px !important;
+    font-family: 'Varela Round', sans-serif;
+}
+a{
+    text-decoration: none;
+    color:black;
+}
+h1{
+    margin: 0px;
+}
+h3 {
+    margin: 0px 10px;
+}
+h5{
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+header{
+    padding: 10px;
+    background: linear-gradient(0deg, #ffd900, white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+.hide-me {
+    display: none;
+}
+.menuItem:hover a{
+    color:blue;
+}
+section{
+    height: 100%;
+    background-color: antiquewhite;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+#mainMap{
+    border: 2px solid lightgray;
+    border-radius: 10%;
+    height:400px;
+    width: 400px;
+    margin: 20px;
+}
+#reviewContainer{
+    border: 2px solid lightgray;
+    border-radius: 10%;
+    padding: 10px;
+    max-width: 50%;
+}
