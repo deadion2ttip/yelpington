@@ -1,17 +1,26 @@
 var fs = require('fs');
 var http = require('http');
 var mime = require('mime-types'); // https://github.com/jshttp/mime-types
+const $path = require('path')
 
 var port = process.env.PORT || 5000;
 http.createServer(function (request, response) {
     let contentType = 'text/plain';
-    var file;
     let data;
 
-    let path = request.url
+    path = request.url
     path = path.split('?')[0]
 
-    if (path === '/') {
+    let file = $path.resolve('.' + path)
+    console.log('file:' + file)
+    let publicDir = $path.resolve('.')
+    console.log('publicDir: '+ publicDir)
+    if (!file.startsWith(publicDir)){
+        data = 'You are not permitted to access that file.'
+        response.statusCode = 403 //forbidden
+        file = null
+    }
+    else if (path === '/') {
         file = 'index.html';
     }
     else if (path === '/all.json') {
